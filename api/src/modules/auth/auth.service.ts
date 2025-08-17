@@ -16,23 +16,16 @@ const authService = {
       const exitingUser = await prisma.users.findUnique({
         where: { email: userData.email },
       });
-
       if (exitingUser) {
         throw new Error('User already exists');
       }
-
-      console.log(Number(process.env.SALT));
       const hashedPassword = await bcryptjs.hash(
         userData.password,
         Number(process.env.SALT)
       );
-
-      console.log(hashedPassword);
-
       const user = await prisma.users.create({
         data: { ...userData, password: hashedPassword },
       });
-
       const token = jwt.sign(
         {
           id: user.id,
@@ -45,7 +38,6 @@ const authService = {
           expiresIn: '7d',
         }
       );
-
       return {
         user: {
           id: user.id,
