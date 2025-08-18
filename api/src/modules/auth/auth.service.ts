@@ -99,6 +99,27 @@ const authService = {
       throw new Error('Login failed: ' + (error as Error).message);
     }
   },
+
+  getMe: async (userId: number) => {
+    try {
+      const user = await prisma.users.findUnique({
+        where: { id: userId },
+      });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
+    } catch (error) {
+      throw new Error(
+        'Failed to retrieve user information: ' + (error as Error).message
+      );
+    }
+  },
 };
 
 export default authService;
