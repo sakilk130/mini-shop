@@ -19,10 +19,10 @@ const authController = {
     }
   },
 
-  login: (req: Request, res: Response) => {
+  login: async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
-      const data = authService.login(email, password);
+      const data = await authService.login(email, password);
       return res.status(STATUS_CODE.OK).json({
         code: STATUS_CODE.OK,
         message: 'Login successful',
