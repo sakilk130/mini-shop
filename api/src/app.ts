@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 
 // Health check route
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   return res.status(STATUS_CODE.OK).json({
     code: STATUS_CODE.OK,
     message: 'Mini E-commerce API is running!',
