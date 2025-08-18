@@ -54,7 +54,7 @@ model users{
 model categories{
   id Int @id @default(autoincrement())
   name String @unique
-  description String?
+  description String? @db.Text
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   deleted_at DateTime?
@@ -66,11 +66,12 @@ model categories{
 model products{
   id Int @id @default(autoincrement())
   name String @unique
-  description String
+  description String @db.Text
   price Float
   stock Int @default(0)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  deleted_at DateTime?
   status Boolean @default(true)
   category_id Int
 

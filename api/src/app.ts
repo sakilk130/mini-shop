@@ -6,6 +6,7 @@ import { json, urlencoded } from 'body-parser';
 import { STATUS_CODE } from './enums/status.enum';
 import authRoutes from './modules/auth/auth.routes';
 import categoryRoutes from './modules/categories/category.routes';
+import productRoutes from './modules/products/product.routes';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(morgan('dev'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
 
 // Health check route
 app.get('/', (_, res) => {
