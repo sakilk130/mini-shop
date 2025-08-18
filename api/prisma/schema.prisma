@@ -43,6 +43,7 @@ model users{
   role Role @default(CUSTOMER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  deleted_at DateTime?
   status Boolean @default(true)
 
   reviews reviews[]
@@ -56,6 +57,7 @@ model categories{
   description String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  deleted_at DateTime?
   status Boolean @default(true)
 
   products products[]

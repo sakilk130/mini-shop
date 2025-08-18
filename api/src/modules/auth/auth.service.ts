@@ -1,4 +1,4 @@
-import { email, z } from 'zod';
+import { z } from 'zod';
 import bcryptjs from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';

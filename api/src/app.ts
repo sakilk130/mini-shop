@@ -5,6 +5,7 @@ import cors from 'cors';
 import { json, urlencoded } from 'body-parser';
 import { STATUS_CODE } from './enums/status.enum';
 import authRoutes from './modules/auth/auth.routes';
+import categoryRoutes from './modules/categories/category.routes';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // Health check route
 app.get('/', (_, res) => {
