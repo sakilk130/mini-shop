@@ -1,7 +1,13 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "node dist/server.js",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10",
+    "yarn": "please use npm instead of yarn",
+    "pnpm": "please use npm instead of pnpm"
+  },
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts",
     "build": "tsc",
