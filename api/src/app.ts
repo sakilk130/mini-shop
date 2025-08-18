@@ -25,4 +25,11 @@ app.get('/', (_, res) => {
   });
 });
 
+app.use((_, res) => {
+  return res.status(STATUS_CODE.OK).json({
+    code: STATUS_CODE.NOT_FOUND,
+    message: 'Route not found',
+  });
+});
+
 export default app;
