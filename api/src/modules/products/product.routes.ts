@@ -14,5 +14,12 @@ router.post(
 );
 router.get('/', authentication, productController.getAllProducts);
 router.get('/:id', authentication, productController.getProductById);
+router.patch(
+  '/:id',
+  authentication,
+  validateZod(productSchema),
+  productController.updateProduct
+);
+router.delete('/:id', authentication, productController.deleteProduct);
 
 export default router;

@@ -83,6 +83,50 @@ const productService = {
       throw new Error(error?.message || 'Failed to retrieve product');
     }
   },
+
+  isProductNameUnique: async (name: string, id: number) => {
+    try {
+      const product = await prisma.products.findUnique({
+        where: { name },
+      });
+      return !product || product.id === id;
+    } catch (error: any) {
+      throw new Error(
+        error?.message || 'Failed to check product name uniqueness'
+      );
+    }
+  },
+
+  updateProduct: async (id: number, data: z.infer<typeof productSchema>) => {
+    try {
+      const updatedProduct = await prisma.products.update({
+        where: { id },
+        data,
+      });
+      return {
+        id: updatedProduct.id,
+        name: updatedProduct.name,
+        description: updatedProduct.description,
+        price: updatedProduct.price,
+        stock: updatedProduct.stock,
+        status: updatedProduct.status,
+        category_id: updatedProduct.category_id,
+      };
+    } catch (error: any) {
+      throw new Error(error?.message || 'Failed to update product');
+    }
+  },
+
+  deleteProduct: async (id: number) => {
+    try {
+      await prisma.products.update({
+        where: { id },
+        data: { deleted_at: new Date() },
+      });
+    } catch (error: any) {
+      throw new Error(error?.message || 'Failed to delete product');
+    }
+  },
 };
 
 export default productService;

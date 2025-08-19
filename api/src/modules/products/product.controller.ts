@@ -24,10 +24,10 @@ const productController = {
         message: 'Product created successfully',
         data: newProduct,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res.status(STATUS_CODE.OK).json({
         code: STATUS_CODE.BAD_REQUEST,
-        message: 'Error creating product',
+        message: error?.message || 'Error creating product',
       });
     }
   },
@@ -40,10 +40,10 @@ const productController = {
         message: 'Products retrieved successfully',
         data: products,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res.status(STATUS_CODE.OK).json({
         code: STATUS_CODE.BAD_REQUEST,
-        message: 'Error retrieving products',
+        message: error?.message || 'Error retrieving products',
       });
     }
   },
@@ -64,10 +64,83 @@ const productController = {
         message: 'Product retrieved successfully',
         data: product,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res.status(STATUS_CODE.OK).json({
         code: STATUS_CODE.BAD_REQUEST,
-        message: 'Error retrieving product',
+        message: error?.message || 'Error retrieving product',
+      });
+    }
+  },
+
+  updateProduct: async (req: Request, res: Response) => {
+    try {
+      const productId = Number(req.params.id);
+      const productData = req.body;
+
+      const findProduct = await productService.getProductById(productId);
+      if (!findProduct) {
+        return res.status(STATUS_CODE.OK).json({
+          code: STATUS_CODE.NOT_FOUND,
+          message: 'Product not found',
+        });
+      }
+
+      const isNameUnique = await productService.isProductNameUnique(
+        productData.name,
+        productId
+      );
+      if (!isNameUnique) {
+        return res.status(STATUS_CODE.OK).json({
+          code: STATUS_CODE.CONFLICT,
+          message: 'Product name must be unique',
+        });
+      }
+
+      const updatedProduct = await productService.updateProduct(
+        productId,
+        productData
+      );
+
+      if (!updatedProduct) {
+        return res.status(STATUS_CODE.OK).json({
+          code: STATUS_CODE.NOT_FOUND,
+          message: 'Product not found',
+        });
+      }
+
+      return res.status(STATUS_CODE.OK).json({
+        code: STATUS_CODE.OK,
+        message: 'Product updated successfully',
+        data: updatedProduct,
+      });
+    } catch (error: any) {
+      return res.status(STATUS_CODE.OK).json({
+        code: STATUS_CODE.BAD_REQUEST,
+        message: error?.message || 'Error updating product',
+      });
+    }
+  },
+
+  deleteProduct: async (req: Request, res: Response) => {
+    try {
+      const productId = Number(req.params.id);
+      const findProduct = await productService.getProductById(productId);
+      if (!findProduct) {
+        return res.status(STATUS_CODE.OK).json({
+          code: STATUS_CODE.NOT_FOUND,
+          message: 'Product not found',
+        });
+      }
+
+      await productService.deleteProduct(productId);
+      return res.status(STATUS_CODE.OK).json({
+        code: STATUS_CODE.OK,
+        message: 'Product deleted successfully',
+      });
+    } catch (error: any) {
+      return res.status(STATUS_CODE.OK).json({
+        code: STATUS_CODE.BAD_REQUEST,
+        message: error?.message || 'Error deleting product',
       });
     }
   },
