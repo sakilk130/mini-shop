@@ -7,6 +7,7 @@ import { STATUS_CODE } from './enums/status.enum';
 import authRoutes from './modules/auth/auth.routes';
 import categoryRoutes from './modules/categories/category.routes';
 import productRoutes from './modules/products/product.routes';
+import userRoutes from './modules/users/user.routes';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
+app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
